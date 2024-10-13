@@ -194,6 +194,9 @@ async function writeEnvFile(envVars: Record<string, string>) {
 }
 
 async function main() {
+
+  // TODO: Add prompts to select configurations needed
+
   await checkStripeCLI();
 
   const POSTGRES_URL = await getPostgresURL();
