@@ -69,6 +69,7 @@ function formatAction(action: ActivityType): string {
 }
 
 export default async function ActivityPage() {
+  
   const logs = await getActivityLogs();
 
   return (

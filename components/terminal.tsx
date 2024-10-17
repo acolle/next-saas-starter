@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { Copy, Check } from 'lucide-react';
 
 export function Terminal() {
+  
   const [terminalStep, setTerminalStep] = useState(0);
   const [copied, setCopied] = useState(false);
   const terminalSteps = [

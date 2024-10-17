@@ -15,6 +15,7 @@ type ActionState = {
 };
 
 export function Settings({ teamData }: { teamData: TeamDataWithMembers }) {
+  
   const [removeState, removeAction, isRemovePending] = useActionState<
     ActionState,
     FormData

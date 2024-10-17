@@ -5,6 +5,7 @@ import { signToken, verifyToken } from '@/lib/auth/session';
 const protectedRoutes = '/dashboard';
 
 export async function middleware(request: NextRequest) {
+  
   const { pathname } = request.nextUrl;
   const sessionCookie = request.cookies.get('session');
   const isProtectedRoute = pathname.startsWith(protectedRoutes);
