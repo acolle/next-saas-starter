@@ -17,24 +17,18 @@
 // Dashboard navigation icons - Lucide
 import { Home, LineChart, Search, ShoppingCart, Users } from "lucide-react";
 
-// TODO: Rename assets to make them agnostic (1,2,3,etc..)
-// App Primary Features Screenshots
-import screenshotExpenses from "@/public/screenshots/expenses.png";
-import screenshotPayroll from "@/public/screenshots/payroll.png";
-import screenshotReporting from "@/public/screenshots/reporting.png";
-import screenshotVatReturns from "@/public/screenshots/vat-returns.png";
+// TODO: Add new screenshots for dashboard features
+// Primary Features Screenshots
+import screenshotFeature1 from "@/public/screenshots/feature1.png";
+import screenshotFeature2 from "@/public/screenshots/template.png";
 
-// App Secondary Features Screenshots
+// Secondary Features Screenshots
 import screenshotContacts from "@/public/screenshots/contacts.png";
 import screenshotInventory from "@/public/screenshots/inventory.png";
 import screenshotProfitLoss from "@/public/screenshots/profit-loss.png";
 
 // Testimonials Avatars
 import avatarImage1 from "@/public/avatars/avatar-1.png";
-import avatarImage2 from "@/public/avatars/avatar-2.png";
-import avatarImage3 from "@/public/avatars/avatar-3.png";
-import avatarImage4 from "@/public/avatars/avatar-4.png";
-import avatarImage5 from "@/public/avatars/avatar-5.png";
 
 // **** **** ****
 // Site Info
@@ -112,25 +106,25 @@ export const features = {
       name: "Feature 1",
       description:
         "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-      image: screenshotPayroll,
+      image: screenshotFeature1
     },
     {
       name: "Feature 2",
       description:
         "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-      image: screenshotExpenses,
+      image: screenshotFeature2,
     },
     {
       name: "Feature 3",
       description:
         "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-      image: screenshotVatReturns,
+      image: screenshotFeature1,
     },
     {
       name: "Feature 4",
       description:
         "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-      image: screenshotReporting,
+      image: screenshotFeature1,
     },
   ],
 };
@@ -159,7 +153,7 @@ export const secondaryFeatures = {
       icon: "inventory",
     },
     {
-      name: "Feature 2",
+      name: "Feature 3",
       tagline: "Tagline for Feature 3",
       description:
         "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
@@ -245,7 +239,7 @@ export const testimonials = {
         author: {
           name: "Jean-Claure Van Damme",
           role: "Founder of Cyborg Inc.",
-          image: avatarImage5,
+          image: avatarImage1,
         },
       }
     ],
@@ -256,7 +250,7 @@ export const testimonials = {
         author: {
           name: "Vin Diesel",
           role: "Founder of Pitch Black",
-          image: avatarImage3,
+          image: avatarImage1,
         },
       }
     ],
@@ -269,42 +263,36 @@ export const faqs = {
   subTagline:
     "This is where you show the frequently asked questions of your customers. You can describe them in detail here.",
   items: [
-    [
-      {
-        question: "Question 1",
-        answer:
-          "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-      },
-      {
-        question: "Question 2",
-        answer: 
-          "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-      }
-    ],
-    [
-      {
-        question: "Question 4",
-        answer:
-          "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-      },
-      {
-        question: "Question 6",
-        answer:
-          "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-      }
-    ],
-    [
-      {
-        question: "Question 5",
-        answer:
-          "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-      },
-      {
-        question: "Question 6",
-        answer:
-          "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-      }
-    ],
+    {
+      question: "Question 1",
+      answer:
+        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+    },
+    {
+      question: "Question 2",
+      answer: 
+        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+    },
+    {
+      question: "Question 3",
+      answer:
+        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+    },
+    {
+      question: "Question 4",
+      answer:
+        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+    },
+    {
+      question: "Question 5",
+      answer:
+        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+    },
+    {
+      question: "Question 6",
+      answer:
+        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+    }     
   ],
 };
 

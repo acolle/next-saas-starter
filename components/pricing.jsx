@@ -56,10 +56,13 @@ function Plan({ name, price, description, href, features, featured = false }) {
   return (
     <section
       className={clsx(
-        'flex flex-col rounded-3xl px-6 sm:px-8',
-        featured ? 'order-first bg-primary/80 py-8 lg:order-none' : 'bg-white/10 lg:py-8'
+        'flex flex-col rounded-3xl px-6 sm:px-8 py-8',
+        featured ? 'order-first bg-primary/80 lg:order-none' : 'bg-white/10'
       )}
     >
+      <p className="font-display text-5xl font-light tracking-tight text-white">
+        ${price}
+      </p>
       <h3 className="mt-5 font-display text-lg text-white">{name}</h3>
       <p
         className={clsx(
@@ -68,9 +71,6 @@ function Plan({ name, price, description, href, features, featured = false }) {
         )}
       >
         {description}
-      </p>
-      <p className="order-first font-display text-5xl font-light tracking-tight text-white">
-        ${price}
       </p>
       <ul
         role="list"
@@ -125,7 +125,7 @@ export function Pricing() {
           </h2>
           <p className="mt-4 text-lg text-slate-400">{pricingPlans.subTagline}</p>
         </div>
-        <div className="-mx-4 mt-16 grid max-w-2xl grid-cols-1 gap-y-10 sm:mx-auto lg:-mx-8 lg:max-w-none lg:grid-cols-3 xl:mx-0 xl:gap-x-8">
+        <div className="mx-2 mt-16 grid max-w-2xl grid-cols-1 gap-y-10 sm:mx-auto lg:-mx-8 lg:max-w-none lg:grid-cols-3 xl:mx-0 xl:gap-x-8">
           {pricingPlans.items.map((plan) => (
             <Plan key={plan.name} {...plan} />  
           ))}

@@ -1,8 +1,8 @@
 'use client';
 
+import { useState } from 'react';
+
 import Image from 'next/image';
-import { Tab, TabGroup, TabList, TabPanel, TabPanels } from '@headlessui/react';
-// import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import clsx from 'clsx';
 
 import { Container } from '@/components/container'
@@ -67,58 +67,60 @@ function FeaturesMobile() {
 }
 
 function FeaturesDesktop() {
+
+  const [selectedTab, setSelectedTab] = useState(0);
+
   return (
-    <TabGroup as="div" className="hidden lg:mt-20 lg:block">
-      {({ selectedIndex }) => (
-        <>
-          <TabList className="grid grid-cols-3 gap-x-8">
-            {secondaryFeatures.items.map((feature, featureIndex) => (
-              <Feature
-                key={feature.name}
-                feature={{
-                  ...feature,
-                  name: (
-                    <Tab className="focus:outline-none">
-                      <span className="absolute inset-0" />
-                      {feature.name}
-                    </Tab>
-                  ),
-                }}
-                isActive={featureIndex === selectedIndex}
-                className="relative"
-              />
-            ))}
-          </TabList>
-          <TabPanels className="relative mt-20 overflow-hidden rounded-4xl bg-slate-200 px-14 py-16 xl:px-16">
-            <div className="-mx-5 flex">
-              {secondaryFeatures.items.map((feature, featureIndex) => (
-                <TabPanel
-                  static
-                  key={feature.name}
-                  className={clsx(
-                    'px-5 transition duration-500 ease-in-out focus:outline-none',
-                    featureIndex !== selectedIndex && 'opacity-60'
-                  )}
-                  style={{ transform: `translateX(-${selectedIndex * 100}%)` }}
-                  aria-hidden={featureIndex !== selectedIndex}
-                >
-                  <div className="w-[52.75rem] overflow-hidden rounded-xl bg-white shadow-lg shadow-slate-900/5 ring-1 ring-slate-500/10">
-                    <Image
-                      className="w-full"
-                      src={feature.image}
-                      alt=""
-                      sizes="52.75rem"
-                    />
-                  </div>
-                </TabPanel>
-              ))}
+    <div className="hidden lg:mt-20 lg:block">
+      
+      {/* Tab List */}
+      <div className="grid grid-cols-3 gap-x-8">
+        {secondaryFeatures.items.map((feature, featureIndex) => (
+          <Feature
+            key={feature.name}
+            feature={{
+              ...feature,
+              name: (
+                <div className="focus:outline-none">
+                  <span className="absolute inset-0" />
+                  {feature.name}
+                </div>
+              ),
+            }}
+            isActive={featureIndex === selectedTab}
+            className="relative"
+            onClick={() => setSelectedTab(featureIndex)}
+          />
+        ))}
+      </div>
+
+      {/* Tab Panels */}
+      <div className="relative mt-20 overflow-hidden rounded-4xl bg-slate-200 px-14 py-16 xl:px-16">
+        <div className="-mx-5 flex transition-transform duration-500 ease-in-out" style={{ transform: `translateX(-${selectedTab * 72}%)` }}>
+          {secondaryFeatures.items.map((feature, featureIndex) => (
+            <div
+              key={feature.name}
+              className={`px-5 ${featureIndex !== selectedTab ? 'opacity-60' : ''}`}
+              aria-hidden={featureIndex !== selectedTab}
+            >
+              <div className="w-[52.75rem] overflow-hidden rounded-xl bg-white shadow-lg shadow-slate-900/5 ring-1 ring-slate-500/10">
+                <Image
+                  className="w-full"
+                  src={feature.image}
+                  alt={`${feature.name} feature screenshot`}
+                  sizes="52.75rem"
+                />
+              </div>
             </div>
-            <div className="pointer-events-none absolute inset-0 rounded-4xl ring-1 ring-inset ring-slate-900/10" />
-          </TabPanels>
-        </>
-      )}
-    </TabGroup>
+          ))}
+        </div>
+
+        {/* Decorative border */}
+        <div className="pointer-events-none absolute inset-0 rounded-4xl ring-1 ring-inset ring-slate-900/10" />
+      </div>
+    </div>
   )
+  
 }
 
 export function SecondaryFeatures() {
