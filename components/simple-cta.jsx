@@ -23,7 +23,7 @@ export function SimpleCallToAction() {
               href="https://github.com/leerob/next-saas-starter"
               target="_blank"
             >
-              <Button className="bg-white hover:bg-gray-100 text-black border border-gray-200 rounded-full text-xl px-12 py-6 inline-flex items-center justify-center">
+              <Button className="bg-white hover:bg-gray-100 text-black border border-gray-200 rounded-md text-xl px-12 py-6 inline-flex items-center justify-center">
                 View the code
                 <ArrowRight className="ml-3 h-6 w-6" />
               </Button>

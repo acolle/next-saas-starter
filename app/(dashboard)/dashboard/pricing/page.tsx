@@ -7,6 +7,7 @@ import { SubmitButton } from './submit-button';
 export const revalidate = 3600;
 
 export default async function PricingPage() {
+  
   const [prices, products] = await Promise.all([
     getStripePrices(),
     getStripeProducts(),
@@ -19,7 +20,8 @@ export default async function PricingPage() {
   const plusPrice = prices.find((price) => price.productId === plusPlan?.id);
 
   return (
-    <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <section className="flex-1 p-4 lg:p-8">
+      {/* <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12"> */}
       <div className="grid md:grid-cols-2 gap-8 max-w-xl mx-auto">
         <PricingCard
           name={basePlan?.name || 'Base'}
@@ -46,7 +48,7 @@ export default async function PricingPage() {
           priceId={plusPrice?.id}
         />
       </div>
-    </main>
+    </section>
   );
 }
 

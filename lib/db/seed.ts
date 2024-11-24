@@ -3,7 +3,10 @@ import { db } from './drizzle';
 import { users, teams, teamMembers } from './schema';
 import { hashPassword } from '@/lib/auth/session';
 
+
+// TODO: Specify Stripe prices from the setup
 async function createStripeProducts() {
+
   console.log('Creating Stripe products and prices...');
 
   const baseProduct = await stripe.products.create({

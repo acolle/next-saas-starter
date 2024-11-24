@@ -196,12 +196,31 @@ async function writeEnvFile(envVars: Record<string, string>) {
 async function main() {
 
   // TODO: Add prompts to select configurations needed
+  // const useStripe = await question(
+  //   'Do you need to configure Stripe, i.e. will you need to handle payments? (y/n): '
+  // );
+
+  // if (useStripe.toLowerCase() === 'y') {
+  //   await checkStripeCLI();
+  // }
+
+  // const useStorage = await question(
+  //   'Do you need to configure Postgres? (y/n): '
+  // );
+
+  // if (useStorage.toLowerCase() === 'y') {
+  //   const POSTGRES_URL = await getPostgresURL();
+  // }
+
+  // if (useStripe.toLowerCase() === 'y') {
+  //   const STRIPE_SECRET_KEY = await getStripeSecretKey();
+  //   const STRIPE_WEBHOOK_SECRET = await createStripeWebhook();
+  // }
 
   await checkStripeCLI();
-
   const POSTGRES_URL = await getPostgresURL();
   const STRIPE_SECRET_KEY = await getStripeSecretKey();
-  const STRIPE_WEBHOOK_SECRET = await createStripeWebhook();
+  const STRIPE_WEBHOOK_SECRET = await createStripeWebhook();  
   const BASE_URL = 'http://localhost:3000';
   const AUTH_SECRET = generateAuthSecret();
 
@@ -210,7 +229,7 @@ async function main() {
     STRIPE_SECRET_KEY,
     STRIPE_WEBHOOK_SECRET,
     BASE_URL,
-    AUTH_SECRET,
+    AUTH_SECRET
   });
 
   console.log('🎉 Setup completed successfully!');

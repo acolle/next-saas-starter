@@ -5,6 +5,7 @@ import { cookies } from 'next/headers';
 import { verifyToken } from '@/lib/auth/session';
 
 export async function getUser() {
+
   const sessionCookie = cookies().get('session');
   if (!sessionCookie || !sessionCookie.value) {
     return null;
@@ -65,17 +66,18 @@ export async function updateTeamSubscription(
 }
 
 export async function getUserWithTeam(userId: number) {
-  const result = await db
+  const user = await db
     .select({
       user: users,
       teamId: teamMembers.teamId,
+      role: teamMembers.role
     })
     .from(users)
     .leftJoin(teamMembers, eq(users.id, teamMembers.userId))
     .where(eq(users.id, userId))
     .limit(1);
 
-  return result[0];
+  return user[0];
 }
 
 export async function getActivityLogs() {

@@ -37,36 +37,40 @@ import avatarImage4 from "@/public/avatars/avatar-4.png";
 import avatarImage5 from "@/public/avatars/avatar-5.png";
 
 // **** **** ****
-// App General Info
+// Site Info
 // **** **** ****
+
+// Metadata
 export const siteInfo = {
   name: "Next.js SaaS Starter",
+  owner: "Comayan Ltd",
   metadata: {
     title: {
       template: "%s | Next.js SaaS Starter",
       default: "Next.js SaaS Starter",
     },
     description: "Get started quickly with Next.js, Postgres, and Stripe.",
-    keywords: "bookkepping, accounting, saas, reporting",
+    keywords: "saas, starter-kit, boilerplate, bootstrap",
     robots: "index, follow",
-    metadataBase: new URL("https://localhost:3000"),
+    lang: "en",
+    metadataBase: new URL(process.env.BASE_URL || "https://localhost:3000"),
     openGraph: {
       title: "Next.js SaaS Starter",
       description: "Get started quickly with Next.js, Postgres, and Stripe.",
-      url: "https://localhost:3000",
+      url: process.env.BASE_URL || "https://localhost:3000",
       siteName: "Next.js SaaS Starter",
       images: [
         {
           url: "/img/logo.svg",
           width: 800,
           height: 600,
-          alt: "Product logo",
+          alt: "My SaaS logo",
         },
         {
           url: "/img/logo.svg",
           width: 1800,
           height: 1600,
-          alt: "Product logo",
+          alt: "My SaaS logo",
         },
       ],
       locale: "en_EN",
@@ -75,19 +79,240 @@ export const siteInfo = {
   },
 };
 
-
 // **** **** ****
-// Navigation Sections
+// Landing Page
 // **** **** ****
 
-// Navigation Header
+// Navbar
 export const siteNavigation = [
-  { name: "Features", href: "#features", current: true },
-  { name: "Testimonials", href: "#testimonials", current: false },
-  { name: "Pricing", href: "pricing", current: false },
+  { name: "Features", href: "#features" },
+  { name: "Testimonials", href: "#testimonials" },
+  { name: "Pricing", href: "#pricing" },
 ];
 
-// Navigation Dashboard
+// Hero
+export const heroInfo = {
+  tagline: "Blazing fast **SaaS boilerplate** for Next.js",
+  subTagline:
+    "Get started quickly with Next.js, Postgres, and Stripe. The best way to launch your SaaS and find market fit for your business.",
+  svgPath:
+    "M203.371.916c-26.013-2.078-76.686 1.963-124.73 9.946L67.3 12.749C35.421 18.062 18.2 21.766 6.004 25.934 1.244 27.561.828 27.778.874 28.61c.07 1.214.828 1.121 9.595-1.176 9.072-2.377 17.15-3.92 39.246-7.496C123.565 7.986 157.869 4.492 195.942 5.046c7.461.108 19.25 1.696 19.17 2.582-.107 1.183-7.874 4.31-25.75 10.366-21.992 7.45-35.43 12.534-36.701 13.884-2.173 2.308-.202 4.407 4.442 4.734 2.654.187 3.263.157 15.593-.78 35.401-2.686 57.944-3.488 88.365-3.143 46.327.526 75.721 2.23 130.788 7.584 19.787 1.924 20.814 1.98 24.557 1.332l.066-.011c1.201-.203 1.53-1.825.399-2.335-2.911-1.31-4.893-1.604-22.048-3.261-57.509-5.556-87.871-7.36-132.059-7.842-23.239-.254-33.617-.116-50.627.674-11.629.54-42.371 2.494-46.696 2.967-2.359.259 8.133-3.625 26.504-9.81 23.239-7.825 27.934-10.149 28.304-14.005.417-4.348-3.529-6-16.878-7.066Z",
+  highlightColor: "text-blue-600",
+  underlineColor: "fill-blue-300/70",
+};
+
+// Primary Features
+export const features = {
+  tagline: "Primary Features",
+  ariaLabel: "Primary Features",
+  subTagline:
+    "This is where you show the primary features of your app. You can describe them in detail here.",
+  items: [
+    {
+      name: "Feature 1",
+      description:
+        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+      image: screenshotPayroll,
+    },
+    {
+      name: "Feature 2",
+      description:
+        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+      image: screenshotExpenses,
+    },
+    {
+      name: "Feature 3",
+      description:
+        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+      image: screenshotVatReturns,
+    },
+    {
+      name: "Feature 4",
+      description:
+        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+      image: screenshotReporting,
+    },
+  ],
+};
+
+// Secondary Features
+export const secondaryFeatures = {
+  tagline: "Secondary Features",
+  ariaLabel: "Primary Features",
+  subTagline:
+    "This is where you show the secondary features of the app. You can describe them in detail here.",
+  items: [
+    {
+      name: "Feature 1",
+      tagline: "Tagline for Feature 1",
+      description:
+        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+      image: screenshotProfitLoss,
+      icon: "reporting",
+    },
+    {
+      name: "Feature 2",
+      tagline: "Tagline for Feature 2",
+      description:
+        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+      image: screenshotInventory,
+      icon: "inventory",
+    },
+    {
+      name: "Feature 2",
+      tagline: "Tagline for Feature 3",
+      description:
+        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+      image: screenshotContacts,
+      icon: "contact",
+    },
+  ],
+};
+
+// Pricing
+export const pricingPlans = {
+  tagline: "Simple pricing, for everyone.",
+  ariaLabel: "Pricing plans for the app",
+  subTagline: "This is where you show the pricing of the app. You can describe it in detail here.",
+  svgPath: "M240.172 22.994c-8.007 1.246-15.477 2.23-31.26 4.114-18.506 2.21-26.323 2.977-34.487 3.386-2.971.149-3.727.324-6.566 1.523-15.124 6.388-43.775 9.404-69.425 7.31-26.207-2.14-50.986-7.103-78-15.624C10.912 20.7.988 16.143.734 14.657c-.066-.381.043-.344 1.324.456 10.423 6.506 49.649 16.322 77.8 19.468 23.708 2.65 38.249 2.95 55.821 1.156 9.407-.962 24.451-3.773 25.101-4.692.074-.104.053-.155-.058-.135-1.062.195-13.863-.271-18.848-.687-16.681-1.389-28.722-4.345-38.142-9.364-15.294-8.15-7.298-19.232 14.802-20.514 16.095-.934 32.793 1.517 47.423 6.96 13.524 5.033 17.942 12.326 11.463 18.922l-.859.874.697-.006c2.681-.026 15.304-1.302 29.208-2.953 25.845-3.07 35.659-4.519 54.027-7.978 9.863-1.858 11.021-2.048 13.055-2.145a61.901 61.901 0 0 0 4.506-.417c1.891-.259 2.151-.267 1.543-.047-.402.145-2.33.913-4.285 1.707-4.635 1.882-5.202 2.07-8.736 2.903-3.414.805-19.773 3.797-26.404 4.829Zm40.321-9.93c.1-.066.231-.085.29-.041.059.043-.024.096-.183.119-.177.024-.219-.007-.107-.079ZM172.299 26.22c9.364-6.058 5.161-12.039-12.304-17.51-11.656-3.653-23.145-5.47-35.243-5.576-22.552-.198-33.577 7.462-21.321 14.814 12.012 7.205 32.994 10.557 61.531 9.831 4.563-.116 5.372-.288 7.337-1.559Z",
+  items: [
+    {
+      name: "Starter",
+      price: 9,
+      description:
+        "Good for anyone who is self-employed and just getting started.",
+      href: "/sign-up",
+      features: [
+        "Send 10 quotes and invoices",
+        "Connect up to 2 bank accounts",
+        "Track up to 15 expenses per month",
+        "Manual payroll support",
+        "Export up to 3 reports",
+      ],
+    },
+    {
+      featured: true,
+      name: "Small business",
+      price: 15,
+      description: "Perfect for small / medium sized businesses.",
+      href: "/sign-up",
+      features: [
+        "Send 25 quotes and invoices",
+        "Connect up to 5 bank accounts",
+        "Track up to 50 expenses per month",
+        "Automated payroll support",
+        "Export up to 12 reports",
+        "Bulk reconcile transactions",
+        "Track in multiple currencies",
+      ],
+    },
+    {
+      name: "Enterprise",
+      price: 39,
+      description: "For even the biggest enterprise companies.",
+      href: "/sign-up",
+      features: [
+        "Send unlimited quotes and invoices",
+        "Connect up to 15 bank accounts",
+        "Track up to 200 expenses per month",
+        "Automated payroll support",
+        "Export up to 25 reports, including TPS",
+      ],
+    }
+  ],
+};
+
+// Testimonials
+export const testimonials = {
+  tagline: "Loved by Businesses Worldwide.",
+  subTagline: "This is where you show the testimonials of your customers. You can describe them in detail here.",
+  items: [
+    [
+      {
+        content:
+          "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+        author: {
+          name: "Sylverster Stallone",
+          role: "Found of Rambo Ltd.",
+          image: avatarImage1,
+        },
+      }
+    ],
+    [
+      {
+        content:
+          "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+        author: {
+          name: "Jean-Claure Van Damme",
+          role: "Founder of Cyborg Inc.",
+          image: avatarImage5,
+        },
+      }
+    ],
+    [
+      {
+        content:
+          "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+        author: {
+          name: "Vin Diesel",
+          role: "Founder of Pitch Black",
+          image: avatarImage3,
+        },
+      }
+    ],
+  ],
+};
+
+// Frequently Asked Questions
+export const faqs = {
+  tagline: "Frequently Asked Questions",
+  subTagline:
+    "This is where you show the frequently asked questions of your customers. You can describe them in detail here.",
+  items: [
+    [
+      {
+        question: "Question 1",
+        answer:
+          "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+      },
+      {
+        question: "Question 2",
+        answer: 
+          "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+      }
+    ],
+    [
+      {
+        question: "Question 4",
+        answer:
+          "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+      },
+      {
+        question: "Question 6",
+        answer:
+          "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+      }
+    ],
+    [
+      {
+        question: "Question 5",
+        answer:
+          "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+      },
+      {
+        question: "Question 6",
+        answer:
+          "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+      }
+    ],
+  ],
+};
+
+// **** **** ****
+// Admin Dashboard
+// **** **** ****
+
+// Dashboard Navigation
 export const dashboardNavigation = [
   {
     name: "Dashboard",
@@ -121,14 +346,12 @@ export const dashboardNavigation = [
   },
 ];
 
-
 //
 export const teams = [
   { id: 1, name: "Heroicons", href: "#", initial: "H", current: false },
   { id: 2, name: "Tailwind Labs", href: "#", initial: "T", current: false },
   { id: 3, name: "Workcation", href: "#", initial: "W", current: false },
 ];
-
 
 // Navigation User Account Dropdown
 export const userNavigation = [
@@ -139,207 +362,3 @@ export const userNavigation = [
   { type: "separator" },
   { type: "item", name: "Sign out", action: "signout", redirectTo: "/login" },
 ];
-
-
-// **** **** ****
-// Site Content
-// **** **** ****
-
-// App Primary Features
-export const features = {
-  tagline: "Everything you Need to Run your Books.",
-  ariaLabel: "Features for running your books",
-  subTagline:
-    "Well everything you need if you aren’t that picky about minor details like tax compliance.",
-  items: [
-    {
-      title: "Payroll",
-      description:
-        "Keep track of everyone's salaries and whether or not they've been paid. Direct deposit not supported.",
-      image: screenshotPayroll,
-    },
-    {
-      title: "Claim expenses",
-      description:
-        "All of your receipts organized into one place, as long as you don't mind typing in the data by hand.",
-      image: screenshotExpenses,
-    },
-    {
-      title: "VAT handling",
-      description:
-        "We only sell our software to companies who don't deal with VAT at all, so technically we do all the VAT stuff they need.",
-      image: screenshotVatReturns,
-    },
-    {
-      title: "Reporting",
-      description:
-        "Easily export your data into an Excel spreadsheet where you can do whatever the hell you want with it.",
-      image: screenshotReporting,
-    },
-  ],
-};
-
-// App Secondary Features
-export const secondaryFeatures = {
-  tagline: "Simplify Everyday Business Tasks.",
-  subTagline:
-    "Because you’d probably be a little confused if we suggested you complicate your everyday business tasks instead.",
-  items: [
-    {
-      name: "Reporting",
-      summary:
-        "Stay on top of things with always up-to-date reporting features.",
-      description:
-        "We talked about reporting in the section above but we needed three items here, so mentioning it one more time for posterity.",
-      image: screenshotProfitLoss,
-      icon: "reporting",
-    },
-    {
-      name: "Inventory",
-      summary:
-        "Never lose track of what’s in stock with accurate inventory tracking.",
-      description:
-        "We don’t offer this as part of our software but that statement is inarguably true. Accurate inventory tracking would help you for sure.",
-      image: screenshotInventory,
-      icon: "inventory",
-    },
-    {
-      name: "Contacts",
-      summary:
-        "Organize all of your contacts, service providers, and invoices in one place.",
-      description:
-        "This also isn’t actually a feature, it’s just some friendly advice. We definitely recommend that you do this, you’ll feel really organized and professional.",
-      image: screenshotContacts,
-      icon: "contact",
-    },
-  ],
-};
-
-// Testimonials
-export const testimonials = {
-  tagline: "Loved by Businesses Worldwide.",
-  subTagline:
-    "Because you’d probably be a little confused if we suggested you complicate your everyday business tasks instead.",
-  items: [
-    [
-      {
-        content:
-          "TaxPal is so easy to use I can’t help but wonder if it’s really doing the things the government expects me to do.",
-        author: {
-          name: "Sheryl Berge",
-          role: "CEO at Lynch LLC",
-          image: avatarImage1,
-        },
-      },
-      {
-        content:
-          "I’m trying to get a hold of someone in support, I’m in a lot of trouble right now and they are saying it has something to do with my books. Please get back to me right away.",
-        author: {
-          name: "Amy Hahn",
-          role: "Director at Velocity Industries",
-          image: avatarImage4,
-        },
-      },
-    ],
-    [
-      {
-        content:
-          "The best part about TaxPal is every time I pay my employees, my bank balance doesn’t go down like it used to. Looking forward to spending this extra cash when I figure out why my card is being declined.",
-        author: {
-          name: "Leland Kiehn",
-          role: "Founder of Kiehn and Sons",
-          image: avatarImage5,
-        },
-      },
-      {
-        content:
-          "There are so many things I had to do with my old software that I just don’t do at all with TaxPal. Suspicious but I can’t say I don’t love it.",
-        author: {
-          name: "Erin Powlowski",
-          role: "COO at Armstrong Inc",
-          image: avatarImage2,
-        },
-      },
-    ],
-    [
-      {
-        content:
-          "I used to have to remit tax to the EU and with TaxPal I somehow don’t have to do that anymore. Nervous to travel there now though.",
-        author: {
-          name: "Peter Renolds",
-          role: "Founder of West Inc",
-          image: avatarImage3,
-        },
-      },
-      {
-        content:
-          "This is the fourth email I’ve sent to your support team. I am literally being held in jail for tax fraud. Please answer your damn emails, this is important.",
-        author: {
-          name: "Amy Hahn",
-          role: "Director at Velocity Industries",
-          image: avatarImage4,
-        },
-      },
-    ],
-  ],
-};
-
-// Frequently Asked Questions
-export const faqs = {
-  tagline: "Frequently Asked Questions",
-  subTagline:
-    "If you can’t find what you’re looking for, email our support team and if you’re lucky someone will get back to you.",
-  items: [
-    [
-      {
-        question: "Does TaxPal handle VAT?",
-        answer:
-          "Well no, but if you move your company offshore you can probably ignore it.",
-      },
-      {
-        question: "Can I pay for my subscription via purchase order?",
-        answer: "Absolutely, we are happy to take your money in all forms.",
-      },
-      {
-        question: "How do I apply for a job at TaxPal?",
-        answer:
-          "We only hire our customers, so subscribe for a minimum of 6 months and then let’s talk.",
-      },
-    ],
-    [
-      {
-        question: "What was that testimonial about tax fraud all about?",
-        answer:
-          "TaxPal is just a software application, ultimately your books are your responsibility.",
-      },
-      {
-        question:
-          "TaxPal sounds horrible but why do I still feel compelled to purchase?",
-        answer:
-          "This is the power of excellent visual design. You just can’t resist it, no matter how poorly it actually functions.",
-      },
-      {
-        question:
-          "I found other companies called TaxPal, are you sure you can use this name?",
-        answer:
-          "Honestly not sure at all. We haven’t actually incorporated or anything, we just thought it sounded cool and made this website.",
-      },
-    ],
-    [
-      {
-        question: "How do you generate reports?",
-        answer:
-          "You just tell us what data you need a report for, and we get our kids to create beautiful charts for you using only the finest crayons.",
-      },
-      {
-        question: "Can we expect more inventory features?",
-        answer: "In life it’s really better to never expect anything at all.",
-      },
-      {
-        question: "I lost my password, how do I get into my account?",
-        answer:
-          "Send us an email and we will send you a copy of our latest password spreadsheet so you can find your information.",
-      },
-    ],
-  ],
-};

@@ -16,7 +16,7 @@ import { signOut } from '@/app/(login)/actions';
 import { useRouter } from 'next/navigation';
 
 
-function DashboardHeader() {
+export function DashboardHeader() {
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { user, setUser } = useUser();
@@ -75,14 +75,5 @@ function DashboardHeader() {
         </div>
       </div>
     </header>
-  );
-}
-
-export default function Layout({ children }: { children: React.ReactNode }) {
-  return (
-    <section className="flex flex-col min-h-screen">
-      <DashboardHeader />
-      {children}
-    </section>
   );
 }

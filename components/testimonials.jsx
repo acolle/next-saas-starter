@@ -57,7 +57,7 @@ export function Testimonials() {
                             {testimonial.author.role}
                           </div>
                         </div>
-                        <div className="overflow-hidden rounded-full bg-slate-50">
+                        <div className="overflow-hidden rounded-md bg-slate-50">
                           <Image
                             className="h-14 w-14 object-cover"
                             src={testimonial.author.image}

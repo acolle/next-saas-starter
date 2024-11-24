@@ -18,7 +18,7 @@ function Feature({ feature, isActive, className, ...props }) {
     >
       <div
         className={clsx(
-          'w-9 rounded-lg',
+          'w-9 rounded-md',
           isActive ? 'bg-blue-600' : 'bg-slate-500'
         )}
       >
@@ -78,7 +78,7 @@ function FeaturesDesktop() {
                 feature={{
                   ...feature,
                   name: (
-                    <Tab className="[&:not(:focus-visible)]:focus:outline-none">
+                    <Tab className="focus:outline-none">
                       <span className="absolute inset-0" />
                       {feature.name}
                     </Tab>
@@ -96,7 +96,7 @@ function FeaturesDesktop() {
                   static
                   key={feature.name}
                   className={clsx(
-                    'px-5 transition duration-500 ease-in-out [&:not(:focus-visible)]:focus:outline-none',
+                    'px-5 transition duration-500 ease-in-out focus:outline-none',
                     featureIndex !== selectedIndex && 'opacity-60'
                   )}
                   style={{ transform: `translateX(-${selectedIndex * 100}%)` }}
@@ -125,7 +125,7 @@ export function SecondaryFeatures() {
   return (
     <section
       id="secondary-features"
-      aria-label="Features for simplifying everyday business tasks"
+      aria-label={secondaryFeatures.ariaLabel}
       className="pb-14 pt-20 sm:pb-20 sm:pt-32 lg:pb-32"
     >
       <Container>

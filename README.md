@@ -91,6 +91,10 @@ To test Stripe payments, use the following test card details:
 - Expiration: Any future date
 - CVC: Any 3-digit number
 
+## Changing Shadcn UI theme
+
+Change the style in `components.json` and then re-install all components using `npx shadcn@latest add components/ui/*(:t:r) --overwrite`.
+
 ## Going to Production
 
 When you're ready to deploy your SaaS application to production, follow these steps:

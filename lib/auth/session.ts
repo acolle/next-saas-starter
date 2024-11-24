@@ -26,7 +26,7 @@ export async function signToken(payload: SessionData) {
   return await new SignJWT(payload)
     .setProtectedHeader({ alg: 'HS256' })
     .setIssuedAt()
-    .setExpirationTime('1 day from now')
+    .setExpirationTime('7 days from now')
     .sign(key);
 }
 
@@ -44,14 +44,17 @@ export async function getSession() {
 }
 
 export async function setSession(user: NewUser) {
+  
   const expiresInOneDay = new Date(Date.now() + 24 * 60 * 60 * 1000);
+  const expiresInSevenDays = new Date(Date.now() + 24 * 60 * 60 * 1000 * 7);
+
   const session: SessionData = {
     user: { id: user.id! },
-    expires: expiresInOneDay.toISOString(),
+    expires: expiresInSevenDays.toISOString(),
   };
   const encryptedSession = await signToken(session);
   cookies().set('session', encryptedSession, {
-    expires: expiresInOneDay,
+    expires: expiresInSevenDays,
     httpOnly: true,
     secure: true,
     sameSite: 'lax',

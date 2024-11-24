@@ -7,27 +7,31 @@ import { CallToAction } from "@/components/cta";
 import { FrequentlyAskedQuestions } from "@/components/fqa";
 import { PrimaryFeatures } from "@/components/primary-features";
 import { SecondaryFeatures } from "@/components/secondary-features";
+import { Footer } from "@/components/footer";
 
 export default function MarketingPage() {
   return (
     <>
+
       <LandingPageHeader />
+
       <main>
         <Hero />
         <PrimaryFeatures />
         <SecondaryFeatures />
         <CallToAction
           tagline={"Get started today"}
-          subTagline={
-            "It’s time to take control of your books. Buy our software so you canfeel like you’re doing something productive."
-          }
+          subTagline={"Now is the time to show your customers what your app has to offer. Sign up for a free account to get started."}
           actionLabel={"Register now"}
-          actionURL={"/register"}
+          actionURL={"/sign-up"}
         />
         <Pricing />
         <Testimonials />
         <FrequentlyAskedQuestions />
       </main>
+
+      <Footer />
+      
     </>
   );
 }

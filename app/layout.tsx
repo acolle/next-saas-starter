@@ -5,20 +5,15 @@ import { UserProvider } from '@/lib/auth';
 import { getUser } from '@/lib/db/queries';
 import { siteInfo } from '@/lib/site-config';
 
-
 export const metadata: Metadata = siteInfo.metadata
+export const viewport: Viewport = { maximumScale: 1 };
 
-export const viewport: Viewport = {
-  maximumScale: 1,
-};
-
+// Available fonts
 const manrope = Manrope({ subsets: ['latin'] });
-
 const inter = Inter({
   subsets: ['latin'],
   display: 'swap',
 })
-
 const lexend = Lexend({
   subsets: ['latin'],
   display: 'swap',
@@ -34,10 +29,10 @@ export default function RootLayout({
 
   return (
     <html
-      lang="en"
-      className={`bg-white dark:bg-gray-950 text-black dark:text-white ${inter.className}`}
+      lang={siteInfo.metadata.lang}
+      className={inter.className}
     >
-      <body className="min-h-[100dvh] bg-gray-50">
+      <body className="min-h-[100dvh] overflow-x-hidden bg-background">
         <UserProvider userPromise={userPromise}>{children}</UserProvider>
       </body>
     </html>

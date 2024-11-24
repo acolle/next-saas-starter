@@ -25,6 +25,8 @@ import {
   validatedAction,
   validatedActionWithUser,
 } from '@/lib/auth/middleware';
+import { sendInvitationEmail } from '@/lib/emails/send-emails';
+import { log } from 'console';
 
 async function logActivity(
   teamId: number | null | undefined,
@@ -50,8 +52,10 @@ const signInSchema = z.object({
 });
 
 export const signIn = validatedAction(signInSchema, async (data, formData) => {
+  
   const { email, password } = data;
 
+  // Find user and their team with email
   const userWithTeam = await db
     .select({
       user: users,
@@ -67,6 +71,7 @@ export const signIn = validatedAction(signInSchema, async (data, formData) => {
     return { error: 'Invalid email or password. Please try again.' };
   }
 
+  // foundUser and foundTeam come from destructuring assignment
   const { user: foundUser, team: foundTeam } = userWithTeam[0];
 
   const isPasswordValid = await comparePasswords(
@@ -80,7 +85,7 @@ export const signIn = validatedAction(signInSchema, async (data, formData) => {
 
   await Promise.all([
     setSession(foundUser),
-    logActivity(foundTeam?.id, foundUser.id, ActivityType.SIGN_IN),
+    process.env.LOG_USER_ACTIVITY === 'true' ? logActivity(foundTeam?.id, foundUser.id, ActivityType.SIGN_IN) : null,
   ]);
 
   const redirectTo = formData.get('redirect') as string | null;
@@ -89,8 +94,10 @@ export const signIn = validatedAction(signInSchema, async (data, formData) => {
     return createCheckoutSession({ team: foundTeam, priceId });
   }
 
+  // redirect to dashboard once logged in
   redirect('/dashboard');
 });
+
 
 const signUpSchema = z.object({
   email: z.string().email(),
@@ -99,6 +106,7 @@ const signUpSchema = z.object({
 });
 
 export const signUp = validatedAction(signUpSchema, async (data, formData) => {
+  
   const { email, password, inviteId } = data;
 
   const existingUser = await db
@@ -111,6 +119,7 @@ export const signUp = validatedAction(signUpSchema, async (data, formData) => {
     return { error: 'Failed to create user. Please try again.' };
   }
 
+  // Step 1: Create user account
   const passwordHash = await hashPassword(password);
 
   const newUser: NewUser = {
@@ -125,6 +134,7 @@ export const signUp = validatedAction(signUpSchema, async (data, formData) => {
     return { error: 'Failed to create user. Please try again.' };
   }
 
+  // Step 2: If user has been invited, assign them to the correct team
   let teamId: number;
   let userRole: string;
   let createdTeam: typeof teams.$inferSelect | null = null;
@@ -147,22 +157,27 @@ export const signUp = validatedAction(signUpSchema, async (data, formData) => {
       teamId = invitation.teamId;
       userRole = invitation.role;
 
+      // Set pending invitation to accepted
       await db
         .update(invitations)
         .set({ status: 'accepted' })
         .where(eq(invitations.id, invitation.id));
 
-      await logActivity(teamId, createdUser.id, ActivityType.ACCEPT_INVITATION);
+      if ( process.env.LOG_USER_ACTIVITY === 'true' ) {
+        await logActivity(teamId, createdUser.id, ActivityType.ACCEPT_INVITATION);
+      }
 
       [createdTeam] = await db
         .select()
         .from(teams)
         .where(eq(teams.id, teamId))
         .limit(1);
+
     } else {
-      return { error: 'Invalid or expired invitation.' };
+      return { error: 'Invalid or expired invitation. Ask for a new invite.' };
     }
   } else {
+
     // Create a new team if there's no invitation
     const newTeam: NewTeam = {
       name: `${email}'s Team`,
@@ -177,7 +192,10 @@ export const signUp = validatedAction(signUpSchema, async (data, formData) => {
     teamId = createdTeam.id;
     userRole = 'owner';
 
-    await logActivity(teamId, createdUser.id, ActivityType.CREATE_TEAM);
+    if ( process.env.LOG_USER_ACTIVITY === 'true' ) {
+      await logActivity(teamId, createdUser.id, ActivityType.CREATE_TEAM);
+    }
+
   }
 
   const newTeamMember: NewTeamMember = {
@@ -188,8 +206,8 @@ export const signUp = validatedAction(signUpSchema, async (data, formData) => {
 
   await Promise.all([
     db.insert(teamMembers).values(newTeamMember),
-    logActivity(teamId, createdUser.id, ActivityType.SIGN_UP),
     setSession(createdUser),
+    process.env.LOG_USER_ACTIVITY === 'true' ? logActivity(teamId, createdUser.id, ActivityType.SIGN_UP) : null
   ]);
 
   const redirectTo = formData.get('redirect') as string | null;
@@ -202,9 +220,14 @@ export const signUp = validatedAction(signUpSchema, async (data, formData) => {
 });
 
 export async function signOut() {
+
   const user = (await getUser()) as User;
   const userWithTeam = await getUserWithTeam(user.id);
-  await logActivity(userWithTeam?.teamId, user.id, ActivityType.SIGN_OUT);
+
+  if ( process.env.LOG_USER_ACTIVITY === 'true' ) {
+    await logActivity(userWithTeam?.teamId, user.id, ActivityType.SIGN_OUT);
+  }
+
   cookies().delete('session');
 }
 
@@ -247,7 +270,7 @@ export const updatePassword = validatedActionWithUser(
         .update(users)
         .set({ passwordHash: newPasswordHash })
         .where(eq(users.id, user.id)),
-      logActivity(userWithTeam?.teamId, user.id, ActivityType.UPDATE_PASSWORD),
+      process.env.LOG_USER_ACTIVITY === 'true' ? logActivity(userWithTeam?.teamId, user.id, ActivityType.UPDATE_PASSWORD) : null
     ]);
 
     return { success: 'Password updated successfully.' };
@@ -270,11 +293,13 @@ export const deleteAccount = validatedActionWithUser(
 
     const userWithTeam = await getUserWithTeam(user.id);
 
-    await logActivity(
-      userWithTeam?.teamId,
-      user.id,
-      ActivityType.DELETE_ACCOUNT
-    );
+    if ( process.env.LOG_USER_ACTIVITY === 'true' ) {
+      await logActivity(
+        userWithTeam?.teamId,
+        user.id,
+        ActivityType.DELETE_ACCOUNT
+      );
+    }
 
     // Soft delete
     await db
@@ -314,7 +339,7 @@ export const updateAccount = validatedActionWithUser(
 
     await Promise.all([
       db.update(users).set({ name, email }).where(eq(users.id, user.id)),
-      logActivity(userWithTeam?.teamId, user.id, ActivityType.UPDATE_ACCOUNT),
+      process.env.LOG_USER_ACTIVITY === 'true' ? logActivity(userWithTeam?.teamId, user.id, ActivityType.UPDATE_ACCOUNT) : null
     ]);
 
     return { success: 'Account updated successfully.' };
@@ -344,11 +369,13 @@ export const removeTeamMember = validatedActionWithUser(
         )
       );
 
-    await logActivity(
-      userWithTeam.teamId,
-      user.id,
-      ActivityType.REMOVE_TEAM_MEMBER
-    );
+    if ( process.env.LOG_USER_ACTIVITY === 'true' ) {
+      await logActivity(
+        userWithTeam.teamId,
+        user.id,
+        ActivityType.REMOVE_TEAM_MEMBER
+      );
+    }
 
     return { success: 'Team member removed successfully' };
   }
@@ -362,13 +389,17 @@ const inviteTeamMemberSchema = z.object({
 export const inviteTeamMember = validatedActionWithUser(
   inviteTeamMemberSchema,
   async (data, _, user) => {
+
     const { email, role } = data;
+
+    // Check the current user is part of a team
     const userWithTeam = await getUserWithTeam(user.id);
 
     if (!userWithTeam?.teamId) {
       return { error: 'User is not part of a team' };
     }
 
+    // Check if the invited user is already a member
     const existingMember = await db
       .select()
       .from(users)
@@ -399,23 +430,27 @@ export const inviteTeamMember = validatedActionWithUser(
       return { error: 'An invitation has already been sent to this email' };
     }
 
-    // Create a new invitation
-    await db.insert(invitations).values({
+    // Create a new invitation and return the invite ID
+    const newInvitation = await db.insert(invitations).values({
       teamId: userWithTeam.teamId,
       email,
       role,
       invitedBy: user.id,
       status: 'pending',
-    });
+    }).returning({ newInvitationId: invitations.id });
 
-    await logActivity(
-      userWithTeam.teamId,
-      user.id,
-      ActivityType.INVITE_TEAM_MEMBER
-    );
+    console.log(newInvitation);
 
-    // TODO: Send invitation email and include ?inviteId={id} to sign-up URL
-    // await sendInvitationEmail(email, userWithTeam.team.name, role)
+    if ( process.env.LOG_USER_ACTIVITY === 'true' ) {
+      await logActivity(
+        userWithTeam.teamId,
+        user.id,
+        ActivityType.INVITE_TEAM_MEMBER
+      );
+    }
+
+    // Send invitation email and include ?inviteId={inviteId} to sign-up URL
+    // await sendInvitationEmail(email, newInvitation);
 
     return { success: 'Invitation sent successfully' };
   }

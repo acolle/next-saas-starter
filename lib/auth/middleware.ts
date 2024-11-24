@@ -3,6 +3,7 @@ import { TeamDataWithMembers, User } from '@/lib/db/schema';
 import { getTeamForUser, getUser } from '@/lib/db/queries';
 import { redirect } from 'next/navigation';
 
+// Form action type
 export type ActionState = {
   error?: string;
   success?: string;

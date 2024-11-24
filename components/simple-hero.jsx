@@ -26,7 +26,7 @@ export function SimpleHero() {
                 href="https://vercel.com/templates/next.js/next-js-saas-starter"
                 target="_blank"
               >
-                <Button className="bg-white hover:bg-gray-100 text-black border border-gray-200 rounded-full text-lg px-8 py-4 inline-flex items-center justify-center">
+                <Button className="bg-white hover:bg-gray-100 text-black border border-gray-200 rounded-md text-lg px-8 py-4 inline-flex items-center justify-center">
                   Deploy your own
                   <ArrowRight className="ml-2 h-5 w-5" />
                 </Button>
