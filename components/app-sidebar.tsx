@@ -54,23 +54,19 @@ const data = {
   ],
   navMain: [
     {
-      title: "Components",
+      title: "Modules",
       url: "#",
       icon: SquareTerminal,
       isActive: true,
       items: [
         {
-          title: "Editor",
-          url: "/dashboard/editor",
+          title: "Text Editor",
+          url: "/dashboard/text-editor",
         },
         {
-          title: "Starred",
-          url: "#",
-        },
-        {
-          title: "Settings",
-          url: "#",
-        },
+          title: "Schema Editor",
+          url: "/dashboard/schema-editor",
+        }
       ],
     },
     {

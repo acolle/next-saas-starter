@@ -6,7 +6,7 @@ import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/component
 import { Button } from "@/components/ui/button";
 import { ChevronDown, ChevronRight, Edit2, Save } from 'lucide-react';
 
-const Editor = () => {
+const TextEditor = () => {
   
   const [planData, setPlanData] = useState({
     sections: [
@@ -85,7 +85,7 @@ const Editor = () => {
   };
 
   return (
-    <div className="w-full max-w-4xl mx-auto p-4">
+    <div className="w-full p-4">
       <Card className="mb-6">
         <CardHeader>
           <CardTitle>Plan Marketing - Systèmes d&apos;extinction d&apos;incendie</CardTitle>
@@ -94,8 +94,8 @@ const Editor = () => {
           {planData.sections.map(section => (
             <Collapsible
               key={section.id}
-              open={section.isOpen}
               className="mb-4"
+              defaultOpen={true}
             >
               <CollapsibleTrigger asChild>
                 <Button
@@ -146,4 +146,4 @@ const Editor = () => {
   );
 };
 
-export default Editor;
+export default TextEditor;
