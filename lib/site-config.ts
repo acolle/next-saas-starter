@@ -29,6 +29,8 @@ import screenshotProfitLoss from "@/public/screenshots/profit-loss.png";
 
 // Testimonials Avatars
 import avatarImage1 from "@/public/avatars/avatar-1.png";
+import { interval } from "drizzle-orm/pg-core";
+import { is } from "drizzle-orm";
 
 // **** **** ****
 // Site Info
@@ -183,6 +185,12 @@ export const pricingPlans = {
         "Manual payroll support",
         "Export up to 3 reports",
       ],
+      stripeConfig: {
+        price: 900, // in cents
+        currency: 'usd',
+        isRecurring: true,
+        interval: 'month'
+      }
     },
     {
       featured: true,
@@ -199,6 +207,12 @@ export const pricingPlans = {
         "Bulk reconcile transactions",
         "Track in multiple currencies",
       ],
+      stripeConfig: {
+        price: 1500,
+        currency: 'usd',
+        isRecurring: true,
+        interval: 'month'
+      }
     },
     {
       name: "Enterprise",
@@ -212,6 +226,12 @@ export const pricingPlans = {
         "Automated payroll support",
         "Export up to 25 reports, including TPS",
       ],
+      stripeConfig: {
+        price: 3900,
+        currency: 'usd',
+        isRecurring: true,
+        interval: 'month'
+      }
     }
   ],
 };

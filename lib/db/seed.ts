@@ -3,48 +3,66 @@ import { db } from './drizzle';
 import { users, teams, teamMembers } from './schema';
 import { hashPassword } from '@/lib/auth/session';
 
+import { pricingPlans } from '@/lib/site-config';
 
-// TODO: Specify Stripe prices from the setup
+
 async function createStripeProducts() {
 
   console.log('Creating Stripe products and prices...');
 
-  const baseProduct = await stripe.products.create({
-    name: 'Base',
-    description: 'Base subscription plan',
-  });
+  pricingPlans.items.forEach(async (plan) => {
 
-  await stripe.prices.create({
-    product: baseProduct.id,
-    unit_amount: 800, // $8 in cents
-    currency: 'usd',
-    recurring: {
-      interval: 'month',
-      trial_period_days: 7,
-    },
-  });
+    // Check if plan has Stripe configuration
+    if (!plan.stripeConfig) {
+      console.error(`Missing Stripe configuration for plan: ${plan.name}`);
+      return;
+    }
 
-  const plusProduct = await stripe.products.create({
-    name: 'Plus',
-    description: 'Plus subscription plan',
-  });
+    // Retrieve all products and filter by name
+    const allProducts = await stripe.products.list({
+      limit: 100,
+      active: true,
+    });
 
-  await stripe.prices.create({
-    product: plusProduct.id,
-    unit_amount: 1200, // $12 in cents
-    currency: 'usd',
-    recurring: {
-      interval: 'month',
-      trial_period_days: 7,
-    },
+    const existingProduct = allProducts.data.find(product => product.name === plan.name);
+
+    // Check if product already exists
+    if (existingProduct) {
+      console.log(`Product already exists: ${existingProduct.name}`);
+      return;
+    }
+
+    // Create new product
+    const product = await stripe.products.create({
+      name: plan.name,
+      description: plan.description
+    });
+
+    // Create new price
+    const priceData: any = {
+      product: product.id,
+      unit_amount: plan.stripeConfig.price,
+      currency: plan.stripeConfig.currency,
+    };
+
+    // Add recurring object if price is recurring
+    if (plan.stripeConfig.isRecurring) {
+      priceData.recurring = {
+        interval: plan.stripeConfig.interval,
+      };
+    }
+
+    await stripe.prices.create(priceData);
+
   });
 
   console.log('Stripe products and prices created successfully.');
 }
 
+// Seed function
 async function seed() {
 
-  // 
+  // Default user
   const email = 'test@test.com';
   const password = 'admin123';
   const passwordHash = await hashPassword(password);
@@ -54,8 +72,7 @@ async function seed() {
     .values([
       {
         email: email,
-        passwordHash: passwordHash,
-        role: "owner",
+        passwordHash: passwordHash
       },
     ])
     .returning();
@@ -76,6 +93,7 @@ async function seed() {
   });
 
   await createStripeProducts();
+  
 }
 
 seed()
