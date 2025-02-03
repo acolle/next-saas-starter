@@ -28,6 +28,7 @@ import {
 import { sendInvitationEmail } from '@/lib/emails/send-emails';
 import { log } from 'console';
 
+
 async function logActivity(
   teamId: number | null | undefined,
   userId: number,
@@ -124,8 +125,7 @@ export const signUp = validatedAction(signUpSchema, async (data, formData) => {
 
   const newUser: NewUser = {
     email,
-    passwordHash,
-    role: 'owner', // Default role, will be overridden if there's an invitation
+    passwordHash
   };
 
   const [createdUser] = await db.insert(users).values(newUser).returning();

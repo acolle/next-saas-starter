@@ -26,7 +26,8 @@ export function Login({ mode = 'signin' }: { mode?: 'signin' | 'signup' }) {
   );
 
   return (
-    <div className="flex flex-col justify-center py-12 px-4 sm:px-6 lg:px-8">
+    <div className="flex flex-col justify-center px-4 sm:px-6 lg:px-8">
+    
       <div className="sm:mx-auto sm:w-full sm:max-w-md">
         <div className="flex justify-center">
           <Link href="/" className="flex items-center">
@@ -41,11 +42,21 @@ export function Login({ mode = 'signin' }: { mode?: 'signin' | 'signup' }) {
         </h2>
       </div>
 
+      {/* User is joining from an invitation */}
+      {inviteId && (
+        <div className="mt-4 text-center text-sm text-gray-600">
+          You have been invited to join a team. Please sign in or create an account to continue.
+        </div>
+      )} 
+
       <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
         <form className="space-y-6" action={formAction}>
+
+          {/*  */}
           <input type="hidden" name="redirect" value={redirect || ''} />
           <input type="hidden" name="priceId" value={priceId || ''} />
           <input type="hidden" name="inviteId" value={inviteId || ''} />
+
           <div>
             <Label
               htmlFor="email"
@@ -90,6 +101,29 @@ export function Login({ mode = 'signin' }: { mode?: 'signin' | 'signup' }) {
               />
             </div>
           </div>
+
+          {mode === 'signup' && (
+            <div>
+            <Label
+              htmlFor="password"
+              className="block text-sm font-medium text-gray-700"
+            >
+              Confirm Password
+            </Label>
+            <div className="mt-1">
+              <Input
+                id="password"
+                name="confirm-password"
+                type="password"
+                required
+                minLength={8}
+                maxLength={100}
+                className="appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-primary focus:border-primary focus:z-10 sm:text-sm"
+                placeholder="Confirm your password"
+              />
+            </div>
+          </div>
+          )}
 
           {state?.error && (
             <div className="text-red-500 text-sm">{state.error}</div>
