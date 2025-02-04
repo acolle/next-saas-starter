@@ -2,7 +2,7 @@ import './globals.css';
 import type { Metadata, Viewport } from 'next';
 import { Manrope, Inter, Lexend } from 'next/font/google';
 import { UserProvider } from '@/lib/auth';
-import { getUser } from '@/lib/db/queries';
+import { getUser, getTeamForUser } from '@/lib/db/queries';
 import { siteInfo } from '@/lib/site-config';
 
 export const metadata: Metadata = siteInfo.metadata
@@ -26,6 +26,12 @@ export default function RootLayout({
 }) {
   
   let userPromise = getUser();
+  let teamPromise = userPromise.then(user => {
+    if (user) {
+      return getTeamForUser(user.id);
+    }
+    return null;
+  });
 
   return (
     <html
@@ -33,7 +39,9 @@ export default function RootLayout({
       className={inter.className}
     >
       <body className="min-h-[100dvh] overflow-x-hidden bg-background">
-        <UserProvider userPromise={userPromise}>{children}</UserProvider>
+        <UserProvider userPromise={userPromise} teamPromise={teamPromise}>
+          {children}
+        </UserProvider>
       </body>
     </html>
   );

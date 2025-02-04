@@ -8,11 +8,12 @@ import {
   useEffect,
 } from 'react';
 import { use } from 'react';
-import { User } from '@/lib/db/schema';
+import { User, Team } from '@/lib/db/schema';
 
 type UserContextType = {
   user: User | null;
   setUser: (user: User | null) => void;
+  team: Team | null;
 };
 
 const UserContext = createContext<UserContextType | null>(null);
@@ -28,19 +29,25 @@ export function useUser(): UserContextType {
 export function UserProvider({
   children,
   userPromise,
+  teamPromise
 }: {
   children: ReactNode;
   userPromise: Promise<User | null>;
+  teamPromise: Promise<Team | null>;
 }) {
   let initialUser = use(userPromise);
+  let initialTeam = use(teamPromise);
+
   let [user, setUser] = useState<User | null>(initialUser);
+  let [team, setTeam] = useState<Team | null>(initialTeam);
 
   useEffect(() => {
     setUser(initialUser);
-  }, [initialUser]);
+    setTeam(initialTeam);
+  }, [initialUser, initialTeam]);
 
   return (
-    <UserContext.Provider value={{ user, setUser }}>
+    <UserContext.Provider value={{ user, setUser, team }}>
       {children}
     </UserContext.Provider>
   );

@@ -1,6 +1,7 @@
 "use client"
 
-import * as React from "react"
+import * as React from "react";
+import { redirect } from 'next/navigation';
 import {
   AudioWaveform,
   Command,
@@ -94,8 +95,12 @@ const data = {
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
 
   // Retrieve user of current session
-  const { user } = useUser();
-  // console.log(user);
+  const { user, setUser } = useUser();
+  console.log(user);
+
+  if (!user) {
+    redirect('/login');
+  }
 
   const currentUser = {
     name: user?.name ?? "Unknown",
