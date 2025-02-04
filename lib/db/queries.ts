@@ -1,4 +1,4 @@
-import { desc, and, eq, isNull } from 'drizzle-orm';
+import { desc, and, eq, isNull, isNotNull } from 'drizzle-orm';
 import { db } from './drizzle';
 import { activityLogs, teamMembers, teams, users } from './schema';
 import { cookies } from 'next/headers';
@@ -30,6 +30,52 @@ export async function getUser() {
     .where(and(eq(users.id, sessionData.user.id), isNull(users.deletedAt)))
     .limit(1);
 
+  if (user.length === 0) {
+    return null;
+  }
+
+  return user[0];
+}
+
+export async function getUserWithTeamTmp() {
+
+  const sessionCookie = cookies().get('session');
+  if (!sessionCookie || !sessionCookie.value) {
+    return null;
+  }
+
+  const sessionData = await verifyToken(sessionCookie.value);
+  if (
+    !sessionData ||
+    !sessionData.user ||
+    typeof sessionData.user.id !== 'number'
+  ) {
+    return null;
+  }
+
+  if (new Date(sessionData.expires) < new Date()) {
+    return null;
+  }
+
+  const user = await db
+    .select({
+      userId: users.id,
+      userName: users.name,
+      userEmail: users.email,
+      teamName: teams.name,
+      userRole: teamMembers.role
+    })
+    .from(users)
+    .leftJoin(teamMembers, eq(users.id, teamMembers.userId))
+    .leftJoin(teams, eq(teamMembers.teamId, teams.id))
+    .where(and(
+      eq(users.id, sessionData.user.id), 
+      isNull(users.deletedAt), 
+      isNotNull(teams.name),
+      isNotNull(teamMembers.role)
+    ))
+    .limit(1);
+  
   if (user.length === 0) {
     return null;
   }

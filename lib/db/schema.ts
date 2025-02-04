@@ -18,7 +18,7 @@ const timestamps = {
 // Drizzle schemas
 export const users = pgTable('users', {
   id: serial('id').primaryKey(),
-  name: varchar('name', { length: 100 }),
+  name: varchar('name', { length: 100 }).notNull(),
   email: varchar('email', { length: 255 }).notNull().unique(),
   passwordHash: text('password_hash').notNull(),
   ...timestamps
@@ -152,18 +152,31 @@ export const activityLogsRelations = relations(activityLogs, ({ one }) => ({
 // 
 export type User = typeof users.$inferSelect;
 export type NewUser = typeof users.$inferInsert;
+
 export type Team = typeof teams.$inferSelect;
 export type NewTeam = typeof teams.$inferInsert;
+
 export type TeamMember = typeof teamMembers.$inferSelect;
 export type NewTeamMember = typeof teamMembers.$inferInsert;
+
 export type ActivityLog = typeof activityLogs.$inferSelect;
 export type NewActivityLog = typeof activityLogs.$inferInsert;
+
 export type Invitation = typeof invitations.$inferSelect;
 export type NewInvitation = typeof invitations.$inferInsert;
+
 export type TeamDataWithMembers = Team & {
   teamMembers: (TeamMember & {
     user: Pick<User, 'id' | 'name' | 'email'>;
   })[];
+};
+
+export type UserWithTeamData = {
+  userId: User['id'];
+  userName: User['name'];
+  userEmail: User['email'];
+  teamName: Team['name'] | null; // Team name can be null if user is not part of any team
+  userRole: TeamMember['role'] | null; // Role can be null if user is not part of any team
 };
 
 export enum ActivityType {

@@ -29,6 +29,7 @@ import { sendInvitationEmail } from '@/lib/emails/send-emails';
 import { log } from 'console';
 
 
+// Log user activity
 async function logActivity(
   teamId: number | null | undefined,
   userId: number,
@@ -46,6 +47,7 @@ async function logActivity(
   };
   await db.insert(activityLogs).values(newActivity);
 }
+
 
 const signInSchema = z.object({
   email: z.string().email().min(3).max(255),
@@ -95,7 +97,7 @@ export const signIn = validatedAction(signInSchema, async (data, formData) => {
     return createCheckoutSession({ team: foundTeam, priceId });
   }
 
-  // redirect to dashboard once logged in
+  // Redirect to dashboard once logged in
   redirect('/dashboard');
 });
 
@@ -103,13 +105,20 @@ export const signIn = validatedAction(signInSchema, async (data, formData) => {
 const signUpSchema = z.object({
   email: z.string().email(),
   password: z.string().min(8),
+  confirmPassword: z.string().min(8),
   inviteId: z.string().optional(),
 });
 
 export const signUp = validatedAction(signUpSchema, async (data, formData) => {
   
-  const { email, password, inviteId } = data;
+  const { email, password, confirmPassword, inviteId } = data;
 
+  // Check if passwords match
+  if (password !== confirmPassword) {
+    return { error: "Passwords don't match" };
+  }
+
+  // Check if user already exists
   const existingUser = await db
     .select()
     .from(users)

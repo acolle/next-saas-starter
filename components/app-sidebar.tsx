@@ -15,6 +15,7 @@ import { NavUser } from "@/components/nav-user"
 import { TeamSwitcher } from "@/components/team-switcher"
 import {
   Sidebar,
+  SidebarMenuButton,
   SidebarContent,
   SidebarFooter,
   SidebarHeader,
@@ -95,7 +96,7 @@ const data = {
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
 
   // Retrieve user of current session
-  const { user, setUser } = useUser();
+  const { user } = useUser();
   console.log(user);
 
   if (!user) {
@@ -103,14 +104,26 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   }
 
   const currentUser = {
-    name: user?.name ?? "Unknown",
-    email: user?.email ?? "Unknown"
+    name: user?.userName ?? "Unknown",
+    email: user?.userEmail ?? "Unknown",
+    teamName: user?.teamName ?? "Unknown",
+    role: user?.userRole ?? "Unknown"
   }
 
   return (
     <Sidebar collapsible="icon" {...props}>
       <SidebarHeader>
-        <TeamSwitcher teams={data.teams} />
+        {/* TODO: With multiple teams */}
+        {/* <TeamSwitcher teams={data.teams} /> */}
+        <SidebarMenuButton size="lg">
+          <div className="flex aspect-square size-8 items-center justify-center rounded-md bg-sidebar-primary text-sidebar-primary-foreground">
+            <Command className="size-4" />
+          </div>
+          <div className="grid flex-1 text-left text-sm leading-tight">
+            <span className="truncate font-semibold">{currentUser.teamName}</span>
+            <span className="truncate text-xs">{currentUser.role}</span>
+          </div>
+        </SidebarMenuButton>
       </SidebarHeader>
       <SidebarContent>
         <NavMain items={data.navMain} />
@@ -120,5 +133,5 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       </SidebarFooter>
       <SidebarRail />
     </Sidebar>
-  )
+  );
 }
