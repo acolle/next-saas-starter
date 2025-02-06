@@ -18,15 +18,15 @@ const timestamps = {
 // Drizzle schemas
 export const users = pgTable('users', {
   id: serial('id').primaryKey(),
-  name: varchar('name', { length: 100 }).notNull(),
-  email: varchar('email', { length: 255 }).notNull().unique(),
+  name: varchar('name', { length: 40 }).notNull(),
+  email: varchar('email', { length: 80 }).notNull().unique(),
   passwordHash: text('password_hash').notNull(),
   ...timestamps
 });
 
 export const teams = pgTable('teams', {
   id: serial('id').primaryKey(),
-  name: varchar('name', { length: 100 }).notNull(),
+  name: varchar('name', { length: 80 }).notNull(),
   createdAt: timestamp('created_at').notNull().defaultNow(),
   updatedAt: timestamp('updated_at').notNull().defaultNow(),
   stripeCustomerId: text('stripe_customer_id').unique(),

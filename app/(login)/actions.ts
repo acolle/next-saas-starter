@@ -103,15 +103,17 @@ export const signIn = validatedAction(signInSchema, async (data, formData) => {
 
 
 const signUpSchema = z.object({
-  email: z.string().email(),
+  name: z.string().min(4).max(40),
+  email: z.string().email().max(80),
   password: z.string().min(8),
   confirmPassword: z.string().min(8),
-  inviteId: z.string().optional(),
+  teamName: z.string().min(4).max(80).optional(),
+  inviteId: z.string().optional()
 });
 
 export const signUp = validatedAction(signUpSchema, async (data, formData) => {
   
-  const { email, password, confirmPassword, inviteId } = data;
+  const { name, email, password, confirmPassword, teamName, inviteId } = data;
 
   // Check if passwords match
   if (password !== confirmPassword) {
@@ -133,22 +135,21 @@ export const signUp = validatedAction(signUpSchema, async (data, formData) => {
   const passwordHash = await hashPassword(password);
 
   const newUser: NewUser = {
+    name,
     email,
     passwordHash
   };
 
-  const [createdUser] = await db.insert(users).values(newUser).returning();
-
-  if (!createdUser) {
-    return { error: 'Failed to create user. Please try again.' };
-  }
-
-  // Step 2: If user has been invited, assign them to the correct team
+  let createdUser: User | null = null;  
   let teamId: number;
   let userRole: string;
   let createdTeam: typeof teams.$inferSelect | null = null;
 
+  // If user has been invited, assign them to the correct team
+  // Otherwise, create a new team and assign the user as the owner
+  // TODO: Use a random invite ID instead of table ID
   if (inviteId) {
+
     // Check if there's a valid invitation
     const [invitation] = await db
       .select()
@@ -163,6 +164,14 @@ export const signUp = validatedAction(signUpSchema, async (data, formData) => {
       .limit(1);
 
     if (invitation) {
+
+      // Create user account
+      [createdUser] = await db.insert(users).values(newUser).returning();
+
+      if (!createdUser) {
+        return { error: 'Failed to create user. Please try again.' };
+      }
+
       teamId = invitation.teamId;
       userRole = invitation.role;
 
@@ -187,9 +196,16 @@ export const signUp = validatedAction(signUpSchema, async (data, formData) => {
     }
   } else {
 
+    // Create user account
+    [createdUser] = await db.insert(users).values(newUser).returning();
+
+    if (!createdUser) {
+      return { error: 'Failed to create user. Please try again.' };
+    }
+
     // Create a new team if there's no invitation
     const newTeam: NewTeam = {
-      name: `${email}'s Team`,
+      name: teamName ?? 'My New Team'
     };
 
     [createdTeam] = await db.insert(teams).values(newTeam).returning();
@@ -207,25 +223,35 @@ export const signUp = validatedAction(signUpSchema, async (data, formData) => {
 
   }
 
-  const newTeamMember: NewTeamMember = {
-    userId: createdUser.id,
-    teamId: teamId,
-    role: userRole,
-  };
+  // 
+  if (createdUser) {
 
-  await Promise.all([
-    db.insert(teamMembers).values(newTeamMember),
-    setSession(createdUser),
-    process.env.LOG_USER_ACTIVITY === 'true' ? logActivity(teamId, createdUser.id, ActivityType.SIGN_UP) : null
-  ]);
+    const newTeamMember: NewTeamMember = {
+      userId: createdUser.id,
+      teamId: teamId,
+      role: userRole,
+    };
+  
+    // 
+    await Promise.all([
+      db.insert(teamMembers).values(newTeamMember),
+      setSession(createdUser),
+      process.env.LOG_USER_ACTIVITY === 'true' ? logActivity(teamId, createdUser.id, ActivityType.SIGN_UP) : null
+    ]);
+  
+    const redirectTo = formData.get('redirect') as string | null;
+    if (redirectTo === 'checkout') {
+      const priceId = formData.get('priceId') as string;
+      return createCheckoutSession({ team: createdTeam, priceId });
+    }
+  
+    redirect('/dashboard');
 
-  const redirectTo = formData.get('redirect') as string | null;
-  if (redirectTo === 'checkout') {
-    const priceId = formData.get('priceId') as string;
-    return createCheckoutSession({ team: createdTeam, priceId });
+  } else {
+    return { error: 'Failed to create user. Please try again.' };
   }
 
-  redirect('/dashboard');
+  
 });
 
 export async function signOut() {
