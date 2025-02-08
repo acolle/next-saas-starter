@@ -1,18 +1,10 @@
 'use client';
 
-import {
-  createContext,
-  useContext,
-  ReactNode,
-  useState,
-  useEffect,
-} from 'react';
-import { use } from 'react';
+import { createContext, useContext, ReactNode } from 'react';
 import { UserWithTeamData } from '@/lib/db/schema';
 
 type UserContextType = {
-  user: UserWithTeamData | null;
-  setUser: (user: UserWithTeamData | null) => void;
+  userPromise: Promise<UserWithTeamData | null>;
 };
 
 const UserContext = createContext<UserContextType | null>(null);
@@ -27,21 +19,13 @@ export function useUser(): UserContextType {
 
 export function UserProvider({
   children,
-  userPromise,
+  userPromise
 }: {
   children: ReactNode;
   userPromise: Promise<UserWithTeamData | null>;
 }) {
-  let initialUser = use(userPromise);
-
-  let [user, setUser] = useState<UserWithTeamData | null>(initialUser);
-
-  useEffect(() => {
-    setUser(initialUser);
-  }, [initialUser]);
-
   return (
-    <UserContext.Provider value={{ user, setUser }}>
+    <UserContext.Provider value={{ userPromise }}>
       {children}
     </UserContext.Provider>
   );

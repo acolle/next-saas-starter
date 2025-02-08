@@ -172,11 +172,11 @@ export type TeamDataWithMembers = Team & {
 };
 
 export type UserWithTeamData = {
-  userId: User['id'];
-  userName: User['name'];
-  userEmail: User['email'];
+  id: User['id'];
+  name: User['name'];
+  email: User['email'];
   teamName: Team['name'] | null; // Team name can be null if user is not part of any team
-  userRole: TeamMember['role'] | null; // Role can be null if user is not part of any team
+  role: TeamMember['role'] | null; // Role can be null if user is not part of any team
 };
 
 export enum ActivityType {

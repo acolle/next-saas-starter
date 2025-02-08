@@ -37,7 +37,7 @@ export async function getUser() {
   return user[0];
 }
 
-export async function getUserWithTeamTmp() {
+export async function getUserWithTeamData() {
 
   const sessionCookie = cookies().get('session');
   if (!sessionCookie || !sessionCookie.value) {
@@ -59,11 +59,11 @@ export async function getUserWithTeamTmp() {
 
   const user = await db
     .select({
-      userId: users.id,
-      userName: users.name,
-      userEmail: users.email,
+      id: users.id,
+      name: users.name,
+      email: users.email,
       teamName: teams.name,
-      userRole: teamMembers.role
+      role: teamMembers.role
     })
     .from(users)
     .leftJoin(teamMembers, eq(users.id, teamMembers.userId))

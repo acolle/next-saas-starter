@@ -48,7 +48,7 @@ export function LandingPageHeader() {
                 <Link
                   href={user ? "/dashboard" : "/sign-up"}
                 >
-                  {user ? "Go to dashboard" : "Sign up"}
+                  {user ? "Access dashboard" : "Sign up"}
                 </Link>
               </Button>
             </NavigationMenuList>

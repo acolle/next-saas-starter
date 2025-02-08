@@ -250,7 +250,6 @@ export const signUp = validatedAction(signUpSchema, async (data, formData) => {
   } else {
     return { error: 'Failed to create user. Please try again.' };
   }
-
   
 });
 

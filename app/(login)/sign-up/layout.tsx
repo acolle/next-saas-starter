@@ -10,7 +10,7 @@ export default function SignUpLayout({
   return (
     <div className="h-screen w-full lg:grid lg:grid-cols-2">
       {/* min-h-[100dvh] */}
-      <div className="flex items-center justify-center py-12">
+      <div className="flex items-center justify-center py-6">
         {children}
       </div>
       <div className="h-screen bg-muted hidden lg:block">

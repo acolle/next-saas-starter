@@ -1,7 +1,9 @@
 "use client"
 
 import * as React from "react";
-import { redirect } from 'next/navigation';
+import { use } from 'react';
+import { useRouter } from 'next/navigation'
+
 import {
   AudioWaveform,
   Command,
@@ -92,23 +94,12 @@ const data = {
   ]
 }
 
-
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
 
-  // Retrieve user of current session
-  const { user } = useUser();
-  console.log(user);
+  const { userPromise } = useUser();
+  const user = use(userPromise);
 
-  if (!user) {
-    redirect('/login');
-  }
-
-  const currentUser = {
-    name: user?.userName ?? "Unknown",
-    email: user?.userEmail ?? "Unknown",
-    teamName: user?.teamName ?? "Unknown",
-    role: user?.userRole ?? "Unknown"
-  }
+  console.log(user)
 
   return (
     <Sidebar collapsible="icon" {...props}>
@@ -120,8 +111,8 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
             <Command className="size-4" />
           </div>
           <div className="grid flex-1 text-left text-sm leading-tight">
-            <span className="truncate font-semibold">{currentUser.teamName}</span>
-            <span className="truncate text-xs">{currentUser.role}</span>
+            <span className="truncate font-semibold">{user?.teamName}</span>
+            <span className="truncate text-xs">{user?.role}</span>
           </div>
         </SidebarMenuButton>
       </SidebarHeader>
@@ -129,7 +120,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         <NavMain items={data.navMain} />
       </SidebarContent>
       <SidebarFooter>
-        <NavUser user={currentUser} />
+        <NavUser user={user} />
       </SidebarFooter>
       <SidebarRail />
     </Sidebar>

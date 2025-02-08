@@ -1,48 +1,39 @@
 "use client"
 
-import {
-  BadgeCheck,
-  Bell,
-  CreditCard,
-  LogOut,
-  MoreHorizontal,
-  Sparkles,
-} from "lucide-react"
+import { useRouter } from 'next/navigation'
+import { BadgeCheck, Bell, CreditCard, LogOut, MoreHorizontal, Sparkles } from "lucide-react"
 
-import {
-  Avatar,
-  AvatarFallback,
-  AvatarImage,
-} from "@/components/ui/avatar"
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuGroup,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { 
+  DropdownMenu, 
+  DropdownMenuContent, 
+  DropdownMenuGroup, 
+  DropdownMenuItem, 
+  DropdownMenuLabel, 
+  DropdownMenuSeparator, 
+  DropdownMenuTrigger 
 } from "@/components/ui/dropdown-menu"
-import {
-  SidebarMenu,
-  SidebarMenuButton,
-  SidebarMenuItem,
-  useSidebar,
-} from "@/components/ui/sidebar"
+import { SidebarMenu, SidebarMenuButton, SidebarMenuItem, useSidebar } from "@/components/ui/sidebar"
 
 import { getInitials } from "@/lib/utils";
+import { signOut } from '@/app/(login)/actions';
+import { UserWithTeamData } from '@/lib/db/schema'
 
 export function NavUser({
-  user,
+  user
 }: {
-  user: {
-    name: string
-    email: string
-  }
+  user: UserWithTeamData | null;
 }) {
-  const { isMobile } = useSidebar()
 
-  const initials = getInitials(user.name);
+  const { isMobile } = useSidebar()
+  const initials = getInitials(user?.name ?? '');
+  const router = useRouter();
+
+  async function handleSignOut() {
+    await signOut();
+    router.refresh();
+    router.push('/sign-in');
+  }
 
   return (
     <SidebarMenu>
@@ -59,8 +50,8 @@ export function NavUser({
                 <AvatarFallback className="rounded-md">{initials}</AvatarFallback>
               </Avatar>
               <div className="grid flex-1 text-left text-sm leading-tight">
-                <span className="truncate font-semibold">{user.name}</span>
-                <span className="truncate text-xs">{user.email}</span>
+                <span className="truncate font-semibold">{user?.name}</span>
+                <span className="truncate text-xs">{user?.email}</span>
               </div>
               <MoreHorizontal  className="ml-auto size-4" />
             </SidebarMenuButton>
@@ -79,8 +70,8 @@ export function NavUser({
                   <AvatarFallback className="rounded-md">{initials}</AvatarFallback>
                 </Avatar>
                 <div className="grid flex-1 text-left text-sm leading-tight">
-                  <span className="truncate font-semibold">{user.name}</span>
-                  <span className="truncate text-xs">{user.email}</span>
+                  <span className="truncate font-semibold">{user?.name}</span>
+                  <span className="truncate text-xs">{user?.email}</span>
                 </div>
               </div>
             </DropdownMenuLabel>
@@ -107,7 +98,7 @@ export function NavUser({
               </DropdownMenuItem>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>
+            <DropdownMenuItem onClick={handleSignOut}>
               <LogOut />
               Log out
             </DropdownMenuItem>

@@ -38,14 +38,14 @@ export function Login({ mode = 'signin' }: { mode?: 'signin' | 'signup' }) {
             </span>
           </Link>
         </div>
-        <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
+        <h2 className="mt-4 text-center text-3xl font-extrabold text-gray-900">
           {mode === "signin"
             ? "Sign in to your account"
             : "Create your account"}
         </h2>
       </div>
 
-      <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
+      <div className="mt-4 sm:mx-auto sm:w-full sm:max-w-md">
 
         {/* User is joining from an invitation */}
         {mode === "signup" && inviteId && (
@@ -58,6 +58,7 @@ export function Login({ mode = 'signin' }: { mode?: 'signin' | 'signup' }) {
         )}
 
         <form className="space-y-6" action={formAction}>
+          
           {/*  */}
           <input type="hidden" name="redirect" value={redirect || ""} />
           <input type="hidden" name="priceId" value={priceId || ""} />
@@ -71,14 +72,14 @@ export function Login({ mode = 'signin' }: { mode?: 'signin' | 'signup' }) {
               >
                 Name
               </Label>
-              <div className="mt-1">
+              <div>
                 <Input
                   id="name"
                   name="name"
                   type="text"
                   autoComplete="name"
                   required
-                  maxLength={50}
+                  maxLength={40}
                   className="appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-primary focus:border-primary focus:z-10 sm:text-sm"
                   placeholder="Enter your full name"
                 />
@@ -93,7 +94,7 @@ export function Login({ mode = 'signin' }: { mode?: 'signin' | 'signup' }) {
             >
               Email
             </Label>
-            <div className="mt-1">
+            <div>
               <Input
                 id="email"
                 name="email"
@@ -114,7 +115,7 @@ export function Login({ mode = 'signin' }: { mode?: 'signin' | 'signup' }) {
             >
               Password
             </Label>
-            <div className="mt-1">
+            <div>
               <Input
                 id="password"
                 name="password"
@@ -124,7 +125,7 @@ export function Login({ mode = 'signin' }: { mode?: 'signin' | 'signup' }) {
                 }
                 required
                 minLength={8}
-                maxLength={100}
+                maxLength={30}
                 className="appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-primary focus:border-primary focus:z-10 sm:text-sm"
                 placeholder="Enter your password"
               />
@@ -139,14 +140,14 @@ export function Login({ mode = 'signin' }: { mode?: 'signin' | 'signup' }) {
               >
                 Confirm Password
               </Label>
-              <div className="mt-1">
+              <div>
                 <Input
                   id="password"
-                  name="confirm-password"
+                  name="confirmPassword"
                   type="password"
                   required
                   minLength={8}
-                  maxLength={100}
+                  maxLength={30}
                   className="appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-primary focus:border-primary focus:z-10 sm:text-sm"
                   placeholder="Confirm your password"
                 />
@@ -161,7 +162,7 @@ export function Login({ mode = 'signin' }: { mode?: 'signin' | 'signup' }) {
           <div>
             <Button
               type="submit"
-              className="w-full flex justify-center items-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-primary hover:bg-primary focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary"
+              className="w-full flex justify-center items-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-primary focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary"
               disabled={pending}
             >
               {pending ? (

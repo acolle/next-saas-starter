@@ -2,7 +2,7 @@ import './globals.css';
 import type { Metadata, Viewport } from 'next';
 import { Manrope, Inter, Lexend } from 'next/font/google';
 import { UserProvider } from '@/lib/auth';
-import { getUser, getUserWithTeamTmp } from '@/lib/db/queries';
+import { getUserWithTeamData } from '@/lib/db/queries';
 import { siteInfo } from '@/lib/site-config';
 
 export const metadata: Metadata = siteInfo.metadata
@@ -25,7 +25,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   
-  let userPromise = getUserWithTeamTmp();
+  let userPromise = getUserWithTeamData();
 
   return (
     <html
