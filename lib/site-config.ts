@@ -40,6 +40,7 @@ import { is } from "drizzle-orm";
 export const siteInfo = {
   name: "Next.js SaaS Starter",
   owner: "Comayan Ltd",
+  dateFormat: 'en-US',
   metadata: {
     title: {
       template: "%s | Next.js SaaS Starter",
@@ -81,9 +82,10 @@ export const siteInfo = {
 
 // Navbar
 export const siteNavigation = [
-  { name: "Features", href: "#features" },
-  { name: "Testimonials", href: "#testimonials" },
-  { name: "Pricing", href: "#pricing" },
+  { name: "Features", href: "/#features" },
+  { name: "Testimonials", href: "/#testimonials" },
+  { name: "Pricing", href: "/#pricing" },
+  { name: "Blog", href: "/blog" },
 ];
 
 // Hero

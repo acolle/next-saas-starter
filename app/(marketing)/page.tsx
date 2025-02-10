@@ -1,4 +1,3 @@
-// Custom components
 import { LandingPageHeader } from "@/components/header";
 import { Hero } from "@/components/hero";
 import { Testimonials } from "@/components/testimonials";
@@ -10,6 +9,7 @@ import { SecondaryFeatures } from "@/components/secondary-features";
 import { Footer } from "@/components/footer";
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+
 
 export default function MarketingPage() {
   return (
